@@ -1,0 +1,15 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+canvas {
+  border: 1px solid black;
+}
+body {
+  background-image: url("songxs_YUKI_e09a1.jpg");
+  background-size: cover;
+  overflow: hidden;
+}
+img {
+  position: absolute;
+}
