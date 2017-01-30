@@ -86,9 +86,9 @@ function update(){
 
     //opacity
     if(data[id].y > ws_size.y_Border){
-      data[id].op -= 0.01;
+      data[id].op -= 0.02;
     }
-    if(data[id].op < 0){
+    if(data[id].op <= 0){
       addimg(id,1);
     }
     //opacity end
