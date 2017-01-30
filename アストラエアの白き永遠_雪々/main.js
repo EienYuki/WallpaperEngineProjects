@@ -1,4 +1,4 @@
-var data = new Array(100);
+var data = new Array(70);
 var imgf = new Image();
 var canvas,ctx;
 var ws_size = {
@@ -25,7 +25,7 @@ function init(){
   }
 
   imgf.onload = function(){
-    setInterval("update()",40);
+    setInterval("update()",34);
   }
   imgf.src = "snow.png";
 }
@@ -51,16 +51,18 @@ function addimg(id,mode){
     y=Math.floor((Math.random() * ws_size.y) - 0);
   }
   else if(mode == 1){
-    x=Math.floor((Math.random() * ws_size.x));
+    x=Math.floor((Math.random() * ws_size.x) - 0);
     y=-imgf.height;
   }
-  op = (id%2 == 0)? 1:0.8;
+  op = (id%2 == 0)? 0.92:0.77;
+  op = (id%3 == 0)? 0.67:op;
+
   data[id] = {
     "ID":id,
     "x":x,
     "y":y,
     "op":op,
-    "sp":Math.floor((Math.random() * 2)+1),
+    "sp":(Math.random() * 2)+0.7,
     "mode":0
   }
 }
