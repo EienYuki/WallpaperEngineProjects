@@ -44,7 +44,7 @@ $(window).resize(function() {
 });
 
 function addimg(id,mode){
-  var x,y,op;
+  var x,y,op,v1,v2,a;
 
   if(mode == 0){
     x=Math.floor((Math.random() * ws_size.x) - 0);
@@ -54,48 +54,55 @@ function addimg(id,mode){
     x=Math.floor((Math.random() * ws_size.x) - 0);
     y=-imgf.height;
   }
+
   op = (id%2 == 0)? 0.92:0.77;
   op = (id%3 == 0)? 0.67:op;
 
+  a = 0.0005;
+  v1 = (Math.random() * 0.5)+0.5;
+  v2 = 0;
+
   data[id] = {
-    "ID":id,
     "x":x,
     "y":y,
     "op":op,
-    "sp":(Math.random() * 2)+0.7,
-    "mode":0
+    "v1":v1,
+    "v2":v2,
+    "a":a
   }
 }
 
 function update(){
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  //mov
+
   for (var id=0;id<data.length;id++){
-    //往 左? 右? 不變?
-    if(data[id].mode == 1){
-      data[id].x -= data[id].sp;
-    }
-    else if (data[id].mode == 2){
-      data[id].x += data[id].sp;
-    }
-    data[id].y += data[id].sp;
-
-    //預防出界
-    if( (data[id].y > ws_size.y) || (data[id].x > ws_size.x) || (data[id].x < 0) ){
-      addimg(id,1);
-    }
-    //mov end
-
-    //opacity
-    if(data[id].y > ws_size.y_Border){
-      data[id].op -= 0.02;
-    }
-    if(data[id].op <= 0){
-      addimg(id,1);
-    }
-    //opacity end
+    mov(id);
+    opacity(id);
+    check(id);
 
     ctx.globalAlpha = data[id].op;
     ctx.drawImage(imgf,data[id].x,data[id].y,imgf.width,imgf.height);
+  }
+}
+
+function mov(id){
+  data[id].v2 = Math.pow(data[id].v1,2)+(2*data[id].a*data[id].y);
+
+  data[id].x += 0.02;
+  data[id].y += data[id].v2;
+}
+
+function opacity(id){
+  if(data[id].y > ws_size.y_Border){
+    data[id].op -= 0.02;
+  }
+}
+
+function check(id){
+  if(data[id].op <= 0){
+    addimg(id,1);
+  }
+  else if( (data[id].y > ws_size.y) || (data[id].x > ws_size.x) || (data[id].x < 0) ){
+    addimg(id,1);
   }
 }
