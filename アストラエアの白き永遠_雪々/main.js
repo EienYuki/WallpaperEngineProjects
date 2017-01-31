@@ -12,10 +12,10 @@ function init(){
   canvas = document.getElementById('draw');
   ctx = canvas.getContext('2d');
 
-  ws_size.x = $(window).width();
-  ws_size.y = $(window).height();
-  ws_size.x_Border = ws_size.x - (ws_size.x/10);
-  ws_size.y_Border = ws_size.y - (ws_size.y/10);
+  ws_size.x = window.innerWidth;
+  ws_size.y = window.innerHeight;
+  ws_size.x_Border = ws_size.x - (ws_size.x/((ws_size.x/1920.0)*10));
+  ws_size.y_Border = ws_size.y - (ws_size.y/((ws_size.y/1080.0)*10));
   canvas.width = ws_size.x;
   canvas.height = ws_size.y;
 
@@ -31,10 +31,10 @@ function init(){
 }
 
 $(window).resize(function() {
-  ws_size.x = $(window).width();
-  ws_size.y = $(window).height();
-  ws_size.x_Border = ws_size.x - (ws_size.x/10);
-  ws_size.y_Border = ws_size.y - (ws_size.y/10);
+  ws_size.x = window.innerWidth;
+  ws_size.y = window.innerHeight;
+  ws_size.x_Border = ws_size.x - (ws_size.x/((ws_size.x/1920.0)*10));
+  ws_size.y_Border = ws_size.y - (ws_size.y/((ws_size.y/1080.0)*10));
   canvas.width = ws_size.x;
   canvas.height = ws_size.y;
 
@@ -58,8 +58,8 @@ function addimg(id,mode){
   op = (id%2 == 0)? 0.92:0.77;
   op = (id%3 == 0)? 0.67:op;
 
-  a = 0.0005;
-  v1 = (Math.random() * 0.5)+0.5;
+  a = 0.001 * 2;
+  v1 = Math.pow((Math.random() * 0.5)+0.5,2);
   v2 = 0;
 
   data[id] = {
@@ -86,7 +86,7 @@ function update(){
 }
 
 function mov(id){
-  data[id].v2 = Math.pow(data[id].v1,2)+(2*data[id].a*data[id].y);
+  data[id].v2 = Math.pow(data[id].v1+(data[id].a*(data[id].y+imgf.height)),0.5);
 
   data[id].x += 0.02;
   data[id].y += data[id].v2;
